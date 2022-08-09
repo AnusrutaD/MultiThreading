@@ -1,9 +1,13 @@
 package com.thread.addersubtracter;
 
+import java.util.concurrent.locks.Lock;
+
 public class Subtractor  implements Runnable{
     private Count count;
-    public Subtractor(Count count){
+    private Lock lockForCount;
+    public Subtractor(Count count, Lock lockForCount){
         this.count = count;
+        this.lockForCount = lockForCount;
     }
 
     public void substract(){
@@ -12,6 +16,7 @@ public class Subtractor  implements Runnable{
 
     @Override
     public void run() {
+        lockForCount.lock();
         for (int i = 0; i < 100; i++){
             int currentValue = count.getValue();
             try {
@@ -22,5 +27,6 @@ public class Subtractor  implements Runnable{
             int nextValue = currentValue - i;
             count.setValue(nextValue);
         }
+        lockForCount.unlock();
     }
 }
