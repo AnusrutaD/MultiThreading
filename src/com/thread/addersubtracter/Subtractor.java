@@ -16,15 +16,13 @@ public class Subtractor  implements Runnable{
     public void run() {
         synchronized (count) {
             for (int i = 0; i < 100; i++) {
-                int currentValue = count.getValue();
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                int nextValue = currentValue - i;
-                System.out.println(nextValue);
-                count.setValue(nextValue);
+                count.incrementValue(-i);
+                System.out.println("Substaract to: " + count.getValue());
             }
         }
     }

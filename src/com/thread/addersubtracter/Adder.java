@@ -15,18 +15,16 @@ public class Adder implements Runnable{
 
     @Override
     public void run() {
-        synchronized (count) {
             for (int i = 0; i < 100; i++) {
-                int currentValue = count.getValue();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                synchronized (count) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    count.incrementValue(i);
+                    System.out.println("Add to: " + count.getValue());
                 }
-                int nextValue = currentValue + i;
-                System.out.println(nextValue);
-                count.setValue(nextValue);
             }
-        }
     }
 }
